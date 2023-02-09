@@ -3,10 +3,12 @@ import Link from 'next/link';
 import { useInView, InViewHookResponse } from 'react-intersection-observer';
 import * as Styled from '@components';
 import { useGetPokemons } from '@hooks';
-import { CenterItems } from '@components';
+import { APIResponseBase } from '@types';
 
 export const Pokemons = () => {
   const [page, setPage] = useState<number>(1);
+  const [favourites, setFavourite] = useState<number[]>([])
+
   const pokemons = useGetPokemons();
 
   const { ref, inView }: InViewHookResponse = useInView({
@@ -32,6 +34,12 @@ export const Pokemons = () => {
     data?.pages.map(p => p.results).flat(), [data?.pages]
   );
 
+  const addToFavourite = (index: number) => {
+    setFavourite(prevValue => [...prevValue, index])
+  };
+
+  const isFavourite = (index: number) => favourites.includes(index)
+
   return (
     <>
       <Styled.H2Typography>Pokemons</Styled.H2Typography>
@@ -40,9 +48,17 @@ export const Pokemons = () => {
           {
             pokemonList && pokemonList.map((pokemon, index) =>
               <Styled.ListItem key={index} ref={index === pokemonList?.length - 1 ? ref : null}>
-                <Link href={`/pokemons/${7}`}>
-                  {pokemon?.name}
-                </Link>
+                <Styled.ContainerFlex>
+                  <Link href={`/pokemons/${7}`}>
+                    {pokemon?.name}
+                  </Link>
+                  <Styled.SarIcon
+                    height={16}
+                    width={16}
+                    onClick={() => addToFavourite(index)}
+                    color={isFavourite(index) ? 'gold' : undefined}
+                  />
+                </Styled.ContainerFlex>
               </Styled.ListItem>
             )
           }

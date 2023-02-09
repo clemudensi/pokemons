@@ -17,9 +17,7 @@ export const useGetPokemons = (): UseInfiniteQueryResult<ApiResponse, Error> => 
         pages: data ? [data] : [pokemonList]
       }
     },
-    getNextPageParam: (lastPage) => {
-      return lastPage?.next ? lastPage?.next : undefined
-    },
+    getNextPageParam: lastPage => lastPage?.next ? lastPage?.next : undefined,
     keepPreviousData: false
   });
 }

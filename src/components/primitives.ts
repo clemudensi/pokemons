@@ -10,7 +10,7 @@ export const Container = styled.div(({ width }: divWidth) => [
   tw`px-48 py-12`
 ]);
 
-export const ContainerFlex = tw.div`my-6`;
+export const ContainerFlex = tw.div`flex`;
 
 export const H2Typography = tw.h2`text-3xl font-bold mb-8`;
 
@@ -51,4 +51,29 @@ export const Spinner = styled.div`
 	`}
 	animation: ${rotate360} 1s linear infinite;
 	transform: translateZ(0);
+`;
+
+
+export const SvgContainer = styled.div<{
+  color?: string,
+  height?: number,
+  width?: number,
+  hoverColor?: string,
+  transform?: number,
+}>`
+  padding: 0 1rem;
+  height: auto;
+  width: auto;
+  align-items: center;
+  justify-content: center;
+  color: ${props => (props.color ? `${props.color}` : 'inherit')};
+  cursor: pointer;
+  & svg {
+    height: ${props => (props.height ? `calc(${props.height}px + 0.5rem)` : null)};
+    width: ${props => (props.width ? `calc(.2vw + ${props.width}px)` : `.5rem`)};
+  }
+  &:hover {
+    color: ${props => (props.hoverColor ? `${props.hoverColor}` : 'gold')};
+    transform: scale(${props => (props.transform ? props.transform : 1)});
+  }
 `;
