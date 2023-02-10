@@ -5,10 +5,9 @@ import {
   useQueryClient,
   UseQueryResult
 } from '@tanstack/react-query';
-import { getPokemon, getPokemons } from '@requests';
-import { ApiResponse, PokeMon } from '@types';
-import pokemonList from '../../__fixtures__/pokemon.json';
-import { ParsedUrlQuery } from 'querystring';
+import { getPokemon, getPokemons } from '@/requests';
+import { ApiResponse, PokeMon } from '@/types';
+import pokemonList from '../../__fixtures__/pokemons.json';
 
 export const useGetPokemons = (): UseInfiniteQueryResult<ApiResponse, Error> => {
   const queryClient = useQueryClient()

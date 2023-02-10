@@ -1,4 +1,4 @@
-import * as Styled from '@components';
+import * as Styled from '@/components';
 
 type ImageProps = {
   pokemon: {

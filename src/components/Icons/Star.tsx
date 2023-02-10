@@ -1,6 +1,6 @@
 import { FC } from 'react';
-import { IconWrapper } from '@components';
-import { SVGProps } from '@types';
+import { IconWrapper } from '@/components';
+import { SVGProps } from '@/types';
 
 export const SarIcon: FC<SVGProps> = props => {
   return (

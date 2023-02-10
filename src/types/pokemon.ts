@@ -4,10 +4,10 @@ interface APIResponseBase {
 }
 
 interface ApiResponse {
-  count?: number;
-  next?: string | null;
-  previous?: string | null;
-  readonly results?: APIResponseBase[];
+  count: number;
+  next: string | null;
+  previous: string | null;
+  readonly results: APIResponseBase[];
 }
 
 interface PokeMon {

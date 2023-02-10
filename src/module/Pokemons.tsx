@@ -1,10 +1,10 @@
 import { useCallback, useMemo, useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useInView, InViewHookResponse } from 'react-intersection-observer';
-import * as Styled from '@components';
-import { useGetPokemons } from '@hooks';
-import { splitString } from '@utils';
-import { APIResponseBase } from '@types';
+import * as Styled from '@/components';
+import { useGetPokemons } from '@/hooks';
+import { splitString } from '@/utils';
+import { APIResponseBase } from '@/types';
 
 export const Pokemons = () => {
   const [page, setPage] = useState<number>(1);
@@ -35,11 +35,15 @@ export const Pokemons = () => {
     data?.pages.map(p => p.results).flat() as APIResponseBase[], [data?.pages]
   ) ?? [];
 
-  const addToFavourite = (index: number) => {
-    setFavourite(prevValue => [...prevValue, index])
-  };
+  const addToFavourite = useCallback((index: number) => {
+    setFavourite(prevValue => [...prevValue, index]);
 
-  const isFavourite = (index: number) => favourites.includes(index)
+    if (favourites.includes(index)) {
+      setFavourite(prevState => prevState.filter(item => item !== index))
+    }
+  }, [favourites]);
+
+  const isFavourite = useCallback((index: number) => favourites.includes(index), [favourites]);
 
   return (
     <>
@@ -48,9 +52,16 @@ export const Pokemons = () => {
         <Styled.List>
           {
             pokemonList && pokemonList.map((pokemon, index) =>
-              <Styled.ListItem key={index} ref={index === pokemonList?.length - 1 ? ref : null}>
+              <Styled.ListItem
+                key={index}
+                ref={index === pokemonList?.length - 1 ? ref : null}
+                data-testid={index === pokemonList?.length - 1 ? "pokemonListRef" : "pokemonList"}
+              >
                 <Styled.ContainerFlex>
-                  <Link href={`/pokemons/${splitString(pokemon.url, '/pokemon/')[1]}`}>
+                  <Link
+                    href={`/pokemons/${splitString(pokemon.url, '/pokemon/')[1]}`}
+                    data-testid="pokemonLink"
+                  >
                     {pokemon?.name}
                   </Link>
                   <Styled.SarIcon
@@ -58,6 +69,7 @@ export const Pokemons = () => {
                     width={16}
                     onClick={() => addToFavourite(index)}
                     color={isFavourite(index) ? 'gold' : undefined}
+                    data-testid={isFavourite(index) ? 'isFavorite' : 'isNotFavorite'}
                   />
                 </Styled.ContainerFlex>
               </Styled.ListItem>

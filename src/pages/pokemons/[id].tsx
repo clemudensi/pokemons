@@ -1,9 +1,8 @@
 import { useRouter } from 'next/router';
-import { PokemonCard, PokemonCardDetails } from '@components';
-import * as Styled from '@components';
-import { useGetPokemon } from '@hooks';
-import { BASE_URL } from '@const';
-import { splitString } from '@utils';
+import * as Styled from '@/components';
+import { useGetPokemon } from '@/hooks';
+import { BASE_URL } from '@/const';
+import { splitString } from '@/utils';
 
 export async function getServerSideProps() {
   return {
@@ -25,8 +24,8 @@ const Pokemon = () => {
     <>
       {result?.data &&
         <Styled.PokemonCardDetails>
-            <Styled.H2Typography>Pokemon {result.data?.name}</Styled.H2Typography>
-            <PokemonCard pokemon={result.data} />
+            <Styled.H2Typography data-testid="pokemonTitle">Pokemon {result.data?.name}</Styled.H2Typography>
+            <Styled.PokemonCard pokemon={result.data} />
         </Styled.PokemonCardDetails>
       }
     </>

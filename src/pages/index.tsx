@@ -1,7 +1,7 @@
 import Head from 'next/head';
 import { Inter } from '@next/font/google';
-import { Pokemons } from '@module';
-import { Container } from '@components';
+import { Pokemons } from '@/module';
+import { Container } from '@/components';
 
 const inter = Inter({ subsets: ['latin'] })
 

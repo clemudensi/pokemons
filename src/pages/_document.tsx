@@ -39,6 +39,7 @@ class CustomDocument extends Document<NewDocumentInitialProps> {
             data-emotion-css={this.props?.ids?.join(' ')}
             dangerouslySetInnerHTML={{ __html: this.props.css }}
           />
+          <title>Pokemons</title>
         </Head>
         <body>
         <Main />
