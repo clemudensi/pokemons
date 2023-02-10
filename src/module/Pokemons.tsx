@@ -3,11 +3,12 @@ import Link from 'next/link';
 import { useInView, InViewHookResponse } from 'react-intersection-observer';
 import * as Styled from '@components';
 import { useGetPokemons } from '@hooks';
+import { splitString } from '@utils';
 import { APIResponseBase } from '@types';
 
 export const Pokemons = () => {
   const [page, setPage] = useState<number>(1);
-  const [favourites, setFavourite] = useState<number[]>([])
+  const [favourites, setFavourite] = useState<number[]>([]);
 
   const pokemons = useGetPokemons();
 
@@ -31,8 +32,8 @@ export const Pokemons = () => {
   }, [inView]);
 
   const pokemonList = useMemo(() =>
-    data?.pages.map(p => p.results).flat(), [data?.pages]
-  );
+    data?.pages.map(p => p.results).flat() as APIResponseBase[], [data?.pages]
+  ) ?? [];
 
   const addToFavourite = (index: number) => {
     setFavourite(prevValue => [...prevValue, index])
@@ -49,7 +50,7 @@ export const Pokemons = () => {
             pokemonList && pokemonList.map((pokemon, index) =>
               <Styled.ListItem key={index} ref={index === pokemonList?.length - 1 ? ref : null}>
                 <Styled.ContainerFlex>
-                  <Link href={`/pokemons/${7}`}>
+                  <Link href={`/pokemons/${splitString(pokemon.url, '/pokemon/')[1]}`}>
                     {pokemon?.name}
                   </Link>
                   <Styled.SarIcon

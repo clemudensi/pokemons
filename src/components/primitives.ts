@@ -3,6 +3,8 @@ import { keyframes } from '@emotion/react'
 
 type divWidth = {
   width?: string;
+  px?: string;
+  py?: string;
 }
 
 export const Container = styled.div(({ width }: divWidth) => [
@@ -76,4 +78,17 @@ export const SvgContainer = styled.div<{
     color: ${props => (props.hoverColor ? `${props.hoverColor}` : 'gold')};
     transform: scale(${props => (props.transform ? props.transform : 1)});
   }
+`;
+
+export const H1Typography = tw.h1`
+    text-4xl md:text-5xl xl:text-6xl 
+    font-bold tracking-tight mb-12
+`;
+
+export const H3Typography = tw.h3`
+    text-2xl text-gray-700
+`;
+
+export const ParagraphLargeTypography = tw.p`
+    text-lg font-medium text-gray-900
 `;
