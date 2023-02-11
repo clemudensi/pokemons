@@ -2,29 +2,20 @@ import {
   render,
   Matcher,
   MatcherOptions,
-  waitFor,
+  waitFor, fireEvent,
 } from '@testing-library/react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import Pokemon from '@/pages/pokemons/[id]';
 import * as hooks from '@/hooks/useGetPokemons';
 import mockedPokemon from '../../../__fixtures__/pokemon.json';
+import { useRouter } from "next/router";
+import * as nextRouter from 'next/router';
 
 const mockedUseGetPokemon = jest.spyOn(hooks, 'useGetPokemon') as jest.Mock<unknown>;
-
-jest.mock("next/router", () => ({
-  useRouter() {
-    return {
-      route: '/pokemons/1',
-      pathname: '/pokemons/1',
-      query: {
-        id: 1
-      },
-      asPath: '/pokemons/1',
-    };
-  },
-}));
+const mockedUseRouter = jest.spyOn(nextRouter, 'useRouter') as jest.Mock<unknown>;
 
 const queryClient = new QueryClient();
+let back = jest.fn();
 
 let getByTestId: (id: Matcher, options?: MatcherOptions | undefined) => HTMLElement,
   queryAllByTestId: (id: Matcher, options?: MatcherOptions | undefined) => HTMLElement[];
@@ -32,6 +23,15 @@ let getByTestId: (id: Matcher, options?: MatcherOptions | undefined) => HTMLElem
 describe('<Pokemon />',  () => {
   beforeEach(() => {
     mockedUseGetPokemon.mockImplementation(() => ({data: mockedPokemon}));
+    mockedUseRouter.mockImplementation(() => ({
+      route: '/pokemons/1',
+      pathname: '/pokemons/1',
+      query: {
+        id: 1
+      },
+      asPath: '/pokemons/1',
+      back
+    }))
 
     const component = render(
       <QueryClientProvider client={queryClient}>
@@ -43,6 +43,10 @@ describe('<Pokemon />',  () => {
     queryAllByTestId = component.queryAllByTestId;
   });
 
+  afterEach(() => {
+    mockedUseRouter.mockClear();
+  });
+
   describe('Pokemon Detail Page', () => {
     it('should render details page correctly', async () => {
       await waitFor(() => {
@@ -50,6 +54,11 @@ describe('<Pokemon />',  () => {
         expect(getByTestId('pokemonName')).toHaveTextContent(`Name: ${mockedPokemon.name}`);
         expect(getByTestId('pokemonExperience')).toHaveTextContent(`Experience Level: ${mockedPokemon.base_experience}`);
       });
+    });
+
+    it('should go back to previous page', () => {
+      fireEvent.click(getByTestId('backButton'));
+      expect(back).toBeCalledTimes(1);
     });
   });
 });

@@ -24,6 +24,7 @@ const Pokemon = () => {
     <>
       {result?.data &&
         <Styled.PokemonCardDetails>
+            <Styled.BackButton />
             <Styled.H2Typography data-testid="pokemonTitle">Pokemon {result.data?.name}</Styled.H2Typography>
             <Styled.PokemonCard pokemon={result.data} />
         </Styled.PokemonCardDetails>

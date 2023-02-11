@@ -14,4 +14,3 @@ export const SarIcon: FC<SVGProps> = props => {
     </IconWrapper>
   )
 };
-

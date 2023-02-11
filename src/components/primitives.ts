@@ -57,13 +57,14 @@ export const Spinner = styled.div`
 
 
 export const SvgContainer = styled.div<{
-  color?: string,
-  height?: number,
-  width?: number,
-  hoverColor?: string,
-  transform?: number,
+  color?: string;
+  height?: number;
+  width?: number;
+  hoverColor?: string;
+  transform?: number;
+  padding?: string;
 }>`
-  padding: 0 1rem;
+  padding: ${props => (props.padding ? `${props.padding}` : '0 1rem')};
   height: auto;
   width: auto;
   align-items: center;

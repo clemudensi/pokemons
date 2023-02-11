@@ -9,6 +9,7 @@ interface SVGProps {
   className?: string;
   children?: React.ReactElement;
   transform?: number;
+  padding?: string;
 }
 
 export type { SVGProps };
