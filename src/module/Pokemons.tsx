@@ -3,8 +3,9 @@ import Link from 'next/link';
 import { useInView, InViewHookResponse } from 'react-intersection-observer';
 import * as Styled from '@/components';
 import { useGetPokemons } from '@/hooks';
-import { splitString } from '@/utils';
+import { splitString, sanitizeString } from '@/utils';
 import { APIResponseBase } from '@/types';
+import { POKEMON_IMAGE_URL } from '@/const';
 
 export const Pokemons = () => {
   const [page, setPage] = useState<number>(1);
@@ -48,7 +49,7 @@ export const Pokemons = () => {
   return (
     <>
       <Styled.H2Typography>Pokemons</Styled.H2Typography>
-      <Styled.ContainerFlex>
+      <Styled.Container>
         <Styled.List>
           {
             pokemonList && pokemonList.map((pokemon, index) =>
@@ -57,31 +58,40 @@ export const Pokemons = () => {
                 ref={index === pokemonList?.length - 1 ? ref : null}
                 data-testid={index === pokemonList?.length - 1 ? "pokemonListRef" : "pokemonList"}
               >
-                <Styled.ContainerFlex>
-                  <Link
-                    href={`/pokemons/${splitString(pokemon.url, '/pokemon/')[1]}`}
-                    data-testid="pokemonLink"
-                  >
-                    {pokemon?.name}
-                  </Link>
-                  <Styled.SarIcon
-                    height={16}
-                    width={16}
-                    onClick={() => addToFavourite(index)}
-                    color={isFavourite(index) ? 'gold' : undefined}
-                    data-testid={isFavourite(index) ? 'isFavorite' : 'isNotFavorite'}
+                <>
+                  <Styled.PokemonImage pokemon={
+                    {
+                      name: pokemon.name,
+                      image: `${POKEMON_IMAGE_URL}/${
+                        sanitizeString(splitString(pokemon.url, '/pokemon/')[1])
+                      }.png`}}
                   />
-                </Styled.ContainerFlex>
+                  <Styled.CenterItems padding="0.5rem">
+                    <Link
+                      href={`/pokemons/${splitString(pokemon.url, '/pokemon/')[1]}`}
+                      data-testid="pokemonLink"
+                    >
+                      {pokemon?.name}
+                    </Link>
+                    <Styled.SarIcon
+                      height={16}
+                      width={16}
+                      onClick={() => addToFavourite(index)}
+                      color={isFavourite(index) ? 'gold' : undefined}
+                      data-testid={isFavourite(index) ? 'isFavorite' : 'isNotFavorite'}
+                    />
+                  </Styled.CenterItems>
+                </>
               </Styled.ListItem>
             )
           }
-          {(isLoading || isFetching || isFetchingNextPage) &&
-            <Styled.CenterItems>
-              <Styled.Spinner />
-            </Styled.CenterItems>
-          }
         </Styled.List>
-      </Styled.ContainerFlex>
+        {(isLoading || isFetching || isFetchingNextPage) &&
+            <Styled.CenterItems>
+                <Styled.Spinner />
+            </Styled.CenterItems>
+        }
+      </Styled.Container>
     </>
   )
 }

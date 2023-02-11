@@ -28,4 +28,4 @@ export const Title = tw.div`
     w-1/2
 `;
 
-export const PokemonCardDetails = tw.div`w-2/5 px-48 py-12`
+export const PokemonCardDetails = tw.div`w-3/5 px-48 py-12`
