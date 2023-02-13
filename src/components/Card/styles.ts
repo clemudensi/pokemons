@@ -6,14 +6,16 @@ export const CardGroup = tw.div`
 
 export const CardImageContainer = tw.div`
     min-h-fit aspect-w-1 aspect-h-1 
-    w-full overflow-hidden rounded-md
+    w-full overflow-hidden
     bg-gray-200 group-hover:opacity-75 
     lg:aspect-none
 `;
 
 export const CardImage = tw.img`
-    h-full w-full object-cover 
+    object-cover 
     object-center lg:h-full lg:w-full
+    mix-blend-luminosity
+    hover:mix-blend-normal
 `;
 
 export const GroupItemsBlock = tw.div`
